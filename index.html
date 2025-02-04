@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العد التنازلي للاختبارات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d4c3a, #0a3b2d);
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #f4b41a;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            font-weight: normal;
+            color: #fff;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .number {
+            font-size: 40px;
+            font-weight: bold;
+            color: #f4b41a;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .label {
+            display: block;
+            margin-top: 5px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .schools {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .school {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .school:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .header h2 {
+                font-size: 16px;
+            }
+            .number {
+                font-size: 32px;
+            }
+            .label {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>العد التنازلي لبدء اختبارات الفصل الثاني</h1>
+            <h2>١٦ فبراير ٢٠٢٥</h2>
+        </div>
+
+        <div class="countdown-grid">
+            <div class="countdown-box">
+                <div class="number" id="days">00</div>
+                <span class="label">يوم</span>
+            </div>
+            <div class="countdown-box">
+                <div class="number" id="hours">00</div>
+                <span class="label">ساعة</span>
+            </div>
+            <div class="countdown-box">
+                <div class="number" id="minutes">00</div>
+                <span class="label">دقيقة</span>
+            </div>
+            <div class="countdown-box">
+                <div class="number" id="seconds">00</div>
+                <span class="label">ثانية</span>
+            </div>
+        </div>
+
+        <div class="schools">
+            <div class="school">ابتدائية الامام محمد بن علي القشيري - تحفيظ</div>
+            <div class="school">ابتدائية سعيد بن الحارث القرشي - عام</div>
+            <div class="school">متوسطة الامام ورش - تحفيظ</div>
+        </div>
+    </div>
+
+    <script>
+        function startCountdown() {
+            const endDate = new Date('2025-02-16T00:00:00').getTime();
+            
+            function update() {
+                const now = Date.now();
+                const diff = endDate - now;
+                
+                if (diff <= 0) {
+                    document.querySelector('.countdown-grid').innerHTML = 
+                        '<div style="grid-column: 1/-1; text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 12px;">' +
+                        '<h2 style="color: #f4b41a; margin: 0;">بدأت الاختبارات - بالتوفيق للجميع</h2>' +
+                        '</div>';
+                    return;
+                }
+                
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                
+                document.getElementById('days').textContent = String(d).padStart(2, '0');
+                document.getElementById('hours').textContent = String(h).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+            }
+            
+            update();
+            return setInterval(update, 1000);
+        }
+
+        const timer = startCountdown();
+        window.addEventListener('beforeunload', () => clearInterval(timer));
+    </script>
+</body>
+</html>
